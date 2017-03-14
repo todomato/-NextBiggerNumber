@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace ClassLibrary1
 {
@@ -11,21 +10,20 @@ namespace ClassLibrary1
         {
             var intAry = num.ToString().ToCharArray().Select(x => (int)Char.GetNumericValue(x)).ToList();
 
-            if (intAry.Count == 1)
+            //for loop 消除 magic number
+            for (int index = intAry.Count - 1; index > 0; index--)
             {
-                return -1;
-            }
+                if (intAry[index] > intAry[index-1])
+                {
+                    var temp = intAry[index - 1];
+                    intAry[index - 1] = intAry[index];
+                    intAry[index] = temp;
 
-            if (intAry[1] > intAry[0])
-            {
-                var temp = intAry[0];
-                intAry[0] = intAry[1];
-                intAry[1] = temp;
+                    return GetNewNumber(intAry);
+                }
             }
-           
-
-            int result = GetNewNumber(intAry);
-            return result == num ? -1 : result;
+            
+            return  -1;
         }
 
         private int GetNewNumber(List<int> intAry)
